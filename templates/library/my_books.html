@@ -1,0 +1,75 @@
+{% extends "library/base.html" %}
+
+{% block title %}Мои книги{% endblock %}
+
+{% block content %}
+<div class="page-header mb-4">
+    <div>
+        <h1 class="page-title">Мои книги</h1>
+        <p class="text-secondary">
+            Избранные книги и список чтения.
+        </p>
+    </div>
+</div>
+
+<div class="row row-cards">
+    {% for item in statuses %}
+        <div class="col-sm-6 col-lg-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title">{{ item.book.title }}</h2>
+
+                    <p class="text-secondary">
+                        Автор: {{ item.book.author.name }}
+                    </p>
+
+                    <label class="form-label" for="status-{{ item.id }}">
+                        Статус чтения
+                    </label>
+
+
+                    <select
+                        class="form-select book-status"
+                        id="status-{{ item.id }}"
+                        data-api-url="/api/my-book-statuses/{{ item.id }}/"
+                    >
+                        <option value="{{ item.status }}" selected>
+                            {{ item.get_status_display }}
+                        </option>
+
+                        {% if item.status == 'to_read' %}
+                            <option value="reading">Читаю сейчас</option>
+                        {% elif item.status == 'reading' %}
+                            <option value="read">Прочитано</option>
+                        {% endif %}
+                    </select>
+
+
+                    <div class="small text-success mt-2 status-message"
+                         aria-live="polite"></div>
+                    <button
+                        type="button"
+                        class="btn btn-outline-danger btn-sm mt-3 delete-book-status"
+                        data-api-url="/api/my-book-statuses/{{ item.id }}/"
+                        data-book-title="{{ item.book.title }}"
+                    >
+                        Удалить из моих книг
+                    </button>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <div class="empty">
+                <p class="empty-title">Пока здесь нет книг</p>
+                <p class="text-secondary">
+                    Добавь книгу в избранное в каталоге, чтобы она появилась здесь.
+                </p>
+                <a href="{% url 'book_list' %}" class="btn btn-primary">
+                    Перейти в каталог
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "library/base.html" %}
+{% block title %}Вход — Книжная полка{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-12 col-sm-10 col-md-7 col-lg-5">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="h2 mb-4">Вход в аккаунт</h1>
+                {% if form.errors %}
+                    <div class="alert alert-danger">Не удалось войти. Проверьте имя пользователя и пароль.</div>
+                {% endif %}
+                {% if next and user.is_authenticated %}
+                    <div class="alert alert-warning">У текущего аккаунта нет доступа к этой странице.</div>
+                {% endif %}
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ next }}">
+                    <div class="mb-3">
+                        <label class="form-label" for="id_username">Имя пользователя</label>
+                        <input class="form-control" type="text" name="username" id="id_username"
+                               autocomplete="username" required autofocus>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="id_password">Пароль</label>
+                        <input class="form-control" type="password" name="password" id="id_password"
+                               autocomplete="current-password" required>
+                    </div>
+                    <button class="btn btn-primary w-100" type="submit">Войти</button>
+                </form>
+                <p class="text-secondary mt-3 mb-0">Для входа нужна учётная запись, созданная администратором.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

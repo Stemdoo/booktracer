@@ -1,0 +1,73 @@
+
+{% extends "library/base.html" %}
+
+{% block title %}Каталог книг{% endblock %}
+
+{% block content %}
+<div class="page-header mb-4">
+    <div>
+        <h1 class="page-title">Каталог книг</h1>
+        <div class="text-secondary">
+            Выбирай книги и собирай собственную книжную полку.
+        </div>
+        <div class="text-secondary mt-1">Найдено книг: {{ book_count }}</div>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" id="book-search-form" action="{% url 'book_list' %}" class="mb-3">
+            <div class="input-group">
+                <input
+                    type="text"
+                    name="q"
+                    id="book-search"
+                    class="form-control"
+                    placeholder="Название книги или автор"
+                    value="{{ query }}"
+                >
+
+                <select name="genre" class="form-select" aria-label="Фильтр по жанру">
+                    <option value="">Все жанры</option>
+                    {% for genre in genres %}
+                        <option value="{{ genre.id }}"
+                            {% if selected_genre == genre.id|stringformat:"s" %}selected{% endif %}>
+                            {{ genre.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <select name="sort" class="form-select" aria-label="Сортировка книг">
+                    <option value="title" {% if sort_option == 'title' %}selected{% endif %}>
+                        По названию
+                    </option>
+                    <option value="author" {% if sort_option == 'author' %}selected{% endif %}>
+                        По автору
+                    </option>
+                </select>
+
+                <button class="btn btn-primary" type="submit">
+                    Найти
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="row row-cards">
+    {% for book in books %}
+        {% include "library/components/book_card.html" with book=book %}
+    {% empty %}
+        <div class="col-12">
+            <div class="empty">
+                <p class="empty-title">Книги не найдены</p>
+                <p class="text-secondary">
+                    Попробуйте изменить поисковый запрос.
+                </p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends "library/base.html" %}
+
+{% block title %}{{ book.title }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Адаптивный блок фрагмента */
+    .snippet-box {
+        background-color: rgba(128, 128, 128, 0.1);
+        border: 1px solid rgba(128, 128, 128, 0.15);
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        font-style: italic;
+        line-height: 1.8;
+        color: var(--tblr-body-color);
+        min-height: 100px;
+    }
+
+    /* Адаптация для тёмной темы */
+    [data-bs-theme="dark"] .snippet-box {
+        background-color: rgba(255, 255, 255, 0.04);
+        border-color: rgba(255, 255, 255, 0.08);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-header d-print-none">
+    <div class="row align-items-center">
+        <div class="col">
+            <h2 class="page-title">{{ book.title }}</h2>
+            <div class="text-secondary mt-1">Автор: {{ book.author.name }}</div>
+        </div>
+        <div class="col-auto ms-auto d-print-none">
+            <a href="{% url 'book_list' %}" class="btn">
+                ← Вернуться в каталог
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row row-cards">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                {% if book.genre %}
+                    <div class="mb-3">
+                        <span class="badge bg-primary">{{ book.genre.name }}</span>
+                    </div>
+                {% endif %}
+
+                <h3 class="card-title">Описание</h3>
+                <div class="mb-4">
+                    {% if book.description %}
+                        <p>{{ book.description|linebreaksbr }}</p>
+                    {% else %}
+                        <p class="text-secondary">Описание пока не добавлено.</p>
+                    {% endif %}
+                </div>
+
+                <hr>
+
+                <h3 class="card-title">Фрагмент для чтения</h3>
+                <div id="snippet-container">
+                    <button id="load-snippet-btn" class="btn btn-primary">
+                        Показать фрагмент
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const loadBtn = document.getElementById('load-snippet-btn');
+        const snippetContainer = document.getElementById('snippet-container');
+        const bookId = {{ book.id }};
+
+        loadBtn.addEventListener('click', async function() {
+            // Показываем загрузку
+            snippetContainer.innerHTML = '<div class="text-center p-4"><div class="spinner-border text-primary" role="status"></div></div>';
+
+            try {
+                const response = await fetch(`/api/books/${bookId}/`);
+                if (!response.ok) throw new Error('Ошибка загрузки');
+                
+                const data = await response.json();
+                
+                if (data.snippet) {
+                    snippetContainer.innerHTML = `
+                        <div class="snippet-box">
+                            ${data.snippet}
+                        </div>
+                    `;
+                } else {
+                    snippetContainer.innerHTML = '<p class="text-secondary">Фрагмент не предоставлен.</p>';
+                }
+            } catch (error) {
+                snippetContainer.innerHTML = '<div class="alert alert-danger">Не удалось загрузить фрагмент.</div>';
+            }
+        });
+    });
+</script>
+{% endblock %}

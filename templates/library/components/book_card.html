@@ -1,0 +1,44 @@
+<div class="col-12 col-sm-6 col-xl-4">
+    <div class="card h-100 book-card">
+        <div class="card-body d-flex flex-column">
+            <h2 class="h3 card-title">{{ book.title }}</h2>
+
+            <p class="text-secondary mb-2">
+                Автор: {{ book.author.name }}
+            </p>
+
+            {% if book.genre %}
+                <p>
+                    <span class="badge bg-blue-lt">
+                        {{ book.genre.name }}
+                    </span>
+                </p>
+            {% endif %}
+
+            <p class="book-description">
+                {{ book.description|default:"Описание пока не добавлено."|truncatechars:180 }}
+            </p>
+
+            <div class="d-flex flex-wrap gap-2 mt-auto">
+                <a
+                    href="{% url 'book_detail' book.id %}"
+                    class="btn btn-outline-primary"
+                >
+                    Подробнее
+                </a>
+
+                <button
+                    type="button"
+                    class="btn {% if book.id in favorite_ids %}btn-danger{% else %}btn-outline-danger{% endif %} favorite-button"
+                    data-url="{% url 'toggle_favorite' book.id %}"
+                >
+                    {% if book.id in favorite_ids %}
+                        Убрать из избранного
+                    {% else %}
+                        В избранное
+                    {% endif %}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

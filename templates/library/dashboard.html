@@ -1,0 +1,379 @@
+{% extends "library/base.html" %}
+
+{% block title %}Интерактивный каталог{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Анимация появления карточек */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Hover-эффект для карточек книг */
+    .list-group-item-action {
+        transition: all 0.2s ease;
+    }
+
+    .list-group-item-action:hover {
+        transform: translateX(5px);
+        background-color: rgba(32, 107, 196, 0.05);
+    }
+
+    /* Заголовки секций */
+    .detail-section-title {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--tblr-text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        margin-bottom: 0.75rem;
+        padding-left: 12px;
+        border-left: 3px solid var(--tblr-primary);
+        line-height: 1;
+    }
+
+    /* Блок фрагмента — адаптивный фон */
+    .snippet-box {
+        background-color: rgba(128, 128, 128, 0.1);
+        border: 1px solid rgba(128, 128, 128, 0.15);
+        border-radius: 0.5rem;
+        padding: 1rem 1.25rem;
+        font-style: italic;
+        line-height: 1.7;
+        color: var(--tblr-body-color);
+    }
+
+    /* Описание книги */
+    .description-text {
+        color: var(--tblr-body-color);
+        line-height: 1.7;
+        font-size: 0.95rem;
+        margin-bottom: 0;
+    }
+
+    /* Разделитель между секциями */
+    .detail-divider {
+        border-color: rgba(128, 128, 128, 0.15);
+        margin: 1.5rem 0;
+        opacity: 0.5;
+    }
+
+    /* Адаптация для тёмной темы */
+    [data-bs-theme="dark"] .list-group-item-action:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    [data-bs-theme="dark"] .snippet-box {
+        background-color: rgba(255, 255, 255, 0.04);
+        border-color: rgba(255, 255, 255, 0.08);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="page-header d-print-none">
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <h2 class="page-title">Интерактивный каталог книг</h2>
+                        <div class="text-secondary mt-1">Динамический поиск, фильтрация и просмотр без перезагрузки</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row row-deck row-cards">
+                <!-- Левая колонка: Фильтры и Список -->
+                <div class="col-md-8 col-lg-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Список книг</h3>
+                        </div>
+                        <div class="card-body">
+                            <!-- Панель управления -->
+                            <div class="row g-2 mb-3">
+                                <div class="col-12 col-sm-5">
+                                    <input type="text" id="search-input" class="form-control" placeholder="Поиск по названию или автору...">
+                                </div>
+                                <div class="col-6 col-sm-4">
+                                    <select id="genre-filter" class="form-select">
+                                        <option value="">Все жанры</option>
+                                    </select>
+                                </div>
+                                <div class="col-6 col-sm-3">
+                                    <select id="sort-select" class="form-select">
+                                        <option value="-id">Сначала новые</option>
+                                        <option value="title">По названию (А-Я)</option>
+                                        <option value="-title">По названию (Я-А)</option>
+                                        <option value="author__name">По автору (А-Я)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Контейнер для списка книг -->
+                            <div id="books-container" class="list-group list-group-flush list-group-hoverable"></div>
+                            
+                            <!-- Пагинация -->
+                            <div id="pagination-container" class="d-flex mt-3 justify-content-center"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Правая колонка: Детальная карточка -->
+                <div class="col-md-4 col-lg-4">
+                    <div class="card sticky-top" style="top: 1rem;">
+                        <div class="card-header">
+                            <h3 class="card-title">Подробная информация</h3>
+                        </div>
+                        <div class="card-body" id="detail-container">
+                            <div class="empty">
+                                <div class="empty-img">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><line x1="9" y1="10" x2="9.01" y2="10"/><line x1="15" y1="10" x2="15.01" y2="10"/><line x1="9.5" y1="15" x2="14.5" y2="15"/></svg>
+                                </div>
+                                <p class="empty-title">Выберите книгу</p>
+                                <p class="empty-subtitle">Кликните по книге в списке слева, чтобы увидеть описание и фрагмент для чтения.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // 1. Управление состоянием (State managment)
+    const state = {
+        search: '',
+        genre: localStorage.getItem('lib_genre') || '',
+        ordering: localStorage.getItem('lib_ordering') || '-id',
+        page: 1,
+        selectedId: null,
+        isLoading: false,
+        isError: false,
+        isEmpty: false
+    };
+
+    // Инициализация UI из сохраненного состояния
+    document.getElementById('genre-filter').value = state.genre;
+    document.getElementById('sort-select').value = state.ordering;
+
+    // 2. Защита от гонки запросов (AbortController)
+    let currentController = null;
+
+    async function fetchBooks() {
+        if (currentController) {
+            currentController.abort();
+        }
+        currentController = new AbortController();
+        const signal = currentController.signal;
+
+        state.isLoading = true;
+        state.isError = false;
+        state.isEmpty = false;
+        renderBooksUI();
+
+        const params = new URLSearchParams();
+        if (state.search) params.append('search', state.search);
+        if (state.genre) params.append('genre', state.genre);
+        params.append('ordering', state.ordering);
+        params.append('page', state.page);
+
+        try {
+            const response = await fetch(`/api/books/?${params.toString()}`, { signal });
+            if (!response.ok) throw new Error('Ошибка сервера');
+            
+            const data = await response.json();
+            state.isLoading = false;
+            state.isEmpty = data.results.length === 0;
+            state.books = data.results;
+            state.totalPages = data.total_pages;
+            renderBooksUI();
+            renderPagination();
+
+        } catch (error) {
+            if (error.name === 'AbortError') return;
+            state.isLoading = false;
+            state.isError = true;
+            renderBooksUI();
+        }
+    }
+
+    async function fetchBookDetail(bookId) {
+        const container = document.getElementById('detail-container');
+        container.innerHTML = `<div class="text-center p-4"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Загрузка...</p></div>`;
+        
+        try {
+            const response = await fetch(`/api/books/${bookId}/`);
+            if (!response.ok) throw new Error('Ошибка загрузки');
+            const book = await response.json();
+            renderBookDetail(book);
+        } catch (error) {
+            container.innerHTML = `<div class="alert alert-danger">Не удалось загрузить информацию о книге.</div>`;
+        }
+    }
+
+    async function loadGenres() {
+        try {
+            const response = await fetch('/api/genres/');
+            const genres = await response.json();
+            const select = document.getElementById('genre-filter');
+            genres.forEach(g => {
+                const option = document.createElement('option');
+                option.value = g.id;
+                option.textContent = g.name;
+                select.appendChild(option);
+            });
+            select.value = state.genre;
+        } catch (e) {
+            console.error('Не удалось загрузить жанры', e);
+        }
+    }
+
+    // 3. Рендеринг интерфейса
+    function renderBooksUI() {
+        const container = document.getElementById('books-container');
+    
+        if (state.isLoading) {
+            container.innerHTML = `<div class="text-center p-4"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Загрузка каталога...</p></div>`;
+            return;
+        }
+        if (state.isError) {
+            container.innerHTML = `<div class="empty"><p class="empty-title text-danger">Ошибка загрузки</p><p class="empty-subtitle">Не удалось получить данные с сервера. Проверьте соединение.</p></div>`;
+            return;
+        }
+        if (state.isEmpty) {
+            container.innerHTML = `<div class="empty"><p class="empty-title">Ничего не найдено</p><p class="empty-subtitle">Попробуйте изменить параметры поиска или фильтры.</p></div>`;
+            return;
+        }
+
+        // Рендерим карточки с анимацией
+        container.innerHTML = state.books.map((book, index) => `
+            <a href="#" class="list-group-item list-group-item-action ${state.selectedId === book.id ? 'active' : ''}" 
+               onclick="selectBook(${book.id}); return false;"
+               style="animation: fadeInUp 0.4s ease-out ${index * 0.08}s both;">
+                <div class="row align-items-center">
+                    <div class="col text-truncate">
+                        <span class="text-truncate d-block fw-bold">${book.title}</span>
+                        <div class="d-block text-secondary text-truncate mt-n1 small">
+                            ${book.author_name} • ${book.genre_name || 'Жанр не указан'}
+                        </div>
+                    </div>
+                </div>
+            </a>
+        `).join('');
+    }
+
+    function renderBookDetail(book) {
+        const container = document.getElementById('detail-container');
+        container.innerHTML = `
+            <h4 class="mb-3" style="font-weight: 600;">${book.title}</h4>
+            <div class="mb-4">
+                <span class="badge bg-primary me-2">${book.author_name}</span>
+                <span class="badge bg-outline-secondary">${book.genre_name || 'Без жанра'}</span>
+            </div>
+            
+            <hr class="detail-divider">
+            
+            <h6 class="detail-section-title">Описание</h6>
+            <p class="description-text">${book.description || '<span class="text-secondary">Описание отсутствует.</span>'}</p>
+            
+            <hr class="detail-divider">
+            
+            <h6 class="detail-section-title">Фрагмент для чтения</h6>
+            <div class="snippet-box">
+                ${book.snippet || '<span class="text-secondary">Фрагмент не предоставлен.</span>'}
+            </div>
+        `;
+    }
+
+    function renderPagination() {
+        const container = document.getElementById('pagination-container');
+        if (state.totalPages <= 1) { container.innerHTML = ''; return; }
+        
+        let html = '<ul class="pagination m-0">';
+        for (let i = 1; i <= state.totalPages; i++) {
+            html += `<li class="page-item ${i === state.page ? 'active' : ''}">
+                        <a class="page-link" href="#" onclick="changePage(${i}); return false;">${i}</a>
+                     </li>`;
+        }
+        html += '</ul>';
+        container.innerHTML = html;
+    }
+
+    // 4. Обработчики событий
+    let searchTimeout;
+    document.getElementById('search-input').addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            state.search = e.target.value;
+            state.page = 1;
+            fetchBooks();
+        }, 300);
+    });
+
+    document.getElementById('genre-filter').addEventListener('change', (e) => {
+        state.genre = e.target.value;
+        localStorage.setItem('lib_genre', state.genre);
+        state.page = 1;
+        fetchBooks();
+    });
+
+    document.getElementById('sort-select').addEventListener('change', (e) => {
+        state.ordering = e.target.value;
+        localStorage.setItem('lib_ordering', state.ordering);
+        state.page = 1;
+        fetchBooks();
+    });
+
+    function selectBook(id) {
+        state.selectedId = id;
+        renderBooksUI();
+        fetchBookDetail(id);
+    }
+
+    function changePage(page) {
+        state.page = page;
+        fetchBooks();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 5. Переключатель тёмной темы
+    (function() {
+        const themeToggle = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+        
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            htmlElement.setAttribute('data-bs-theme', 'dark');
+        }
+        
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function() {
+                const currentTheme = htmlElement.getAttribute('data-bs-theme');
+                if (currentTheme === 'dark') {
+                    htmlElement.removeAttribute('data-bs-theme');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    htmlElement.setAttribute('data-bs-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                }
+            });
+        }
+    })();
+
+    // Инициализация при загрузке страницы
+    loadGenres();
+    fetchBooks();
+</script>
+{% endblock %}
