@@ -33,6 +33,10 @@ class Book(models.Model):
     # Фрагмент книги для чтения без перезагрузки (требование СРС)
     snippet = models.TextField(verbose_name="Фрагмент для чтения", blank=True)
 
+    available_copies = models.PositiveIntegerField(
+        default=1,
+        verbose_name="Доступные экземпляры"
+    )
 
     # Связь: У одного автора может быть много книг (ForeignKey)
     author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='books', verbose_name="Автор")
@@ -71,3 +75,102 @@ class UserBookStatus(models.Model):
         verbose_name_plural = "Статусы книг у пользователей"
         # Запрещаем пользователю иметь две одинаковые записи для одной и той же книги
         unique_together = ('user', 'book')
+
+
+
+class BookReservation(models.Model):
+    STATUS_CHOICES = [
+        ('created', 'Создано'),
+        ('confirmed', 'Подтверждено'),
+        ('issued', 'Выдано'),
+        ('returned', 'Завершено'),
+        ('cancelled', 'Отменено'),
+    ]
+
+    book = models.ForeignKey(
+        Book,
+        on_delete=models.CASCADE,
+        related_name='reservations',
+        verbose_name="Книга"
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='book_reservations',
+        verbose_name="Пользователь"
+    )
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='created',
+        verbose_name="Статус бронирования"
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Дата создания"
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name="Дата изменения"
+    )
+
+    def __str__(self):
+        return f"{self.book.title} — {self.get_status_display()}"
+
+    class Meta:
+        verbose_name = "Бронирование книги"
+        verbose_name_plural = "Бронирования книг"
+
+
+
+class ReservationEvent(models.Model):
+    reservation = models.ForeignKey(
+        BookReservation,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='events',
+        verbose_name="Бронирование"
+    )
+
+    reservation_id_snapshot = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        verbose_name="Номер бронирования"
+    )
+
+    actor = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Инициатор"
+    )
+
+    event_type = models.CharField(
+        max_length=50,
+        verbose_name="Тип события"
+    )
+
+    details = models.CharField(
+        max_length=255,
+        blank=True,
+        verbose_name="Описание события"
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Дата события"
+    )
+
+    class Meta:
+        ordering = ['created_at']
+        verbose_name = "Событие бронирования"
+        verbose_name_plural = "История бронирований"
+
+    def __str__(self):
+        return f"{self.event_type} — {self.reservation}"

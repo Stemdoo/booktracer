@@ -7,6 +7,11 @@
                 Автор: {{ book.author.name }}
             </p>
 
+            <p class="text-secondary mb-2">
+                Доступно экземпляров:
+                <strong>{{ book.available_copies }}</strong>
+            </p>
+
             {% if book.genre %}
                 <p>
                     <span class="badge bg-blue-lt">

@@ -1,0 +1,529 @@
+
+{% extends "library/base.html" %}
+
+{% block title %}Бронирования книг{% endblock %}
+
+{% block content %}
+<div class="page-header mb-3">
+    <h2 class="page-title">Бронирования книг</h2>
+    <div class="text-secondary">
+        Создание бронирований, управление выдачей и просмотр истории.
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <h3 class="card-title" id="reservation-form-title">
+            Новое бронирование
+        </h3>
+    </div>
+    <div class="card-body">
+        <form id="reservation-form">
+            <div class="row g-2 align-items-end">
+                <div class="col-md-8">
+                    <label class="form-label" for="book-select">
+                        Книга
+                    </label>
+                    <select id="book-select" class="form-select" required>
+                        <option value="">Загрузка списка книг...</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex gap-2">
+                        <button
+                            class="btn btn-primary flex-fill"
+                            id="reservation-submit"
+                            type="submit"
+                        >
+                            Создать бронирование
+                        </button>
+
+                        <button
+                            class="btn btn-outline-secondary d-none"
+                            id="reservation-cancel-edit"
+                            type="button"
+                        >
+                            Отмена
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Мои бронирования</h3>
+    </div>
+    <div class="card-body">
+        <div class="row g-2 mb-3">
+            <div class="col-sm-6">
+                <label class="form-label" for="status-filter">Статус</label>
+                <select id="status-filter" class="form-select">
+                    <option value="">Все статусы</option>
+                    <option value="created">Создано</option>
+                    <option value="confirmed">Подтверждено</option>
+                    <option value="issued">Выдано</option>
+                    <option value="returned">Завершено</option>
+                    <option value="cancelled">Отменено</option>
+                </select>
+            </div>
+            <div class="col-sm-6">
+                <label class="form-label" for="genre-filter">Жанр</label>
+                <select id="genre-filter" class="form-select">
+                    <option value="">Все жанры</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="message" class="alert d-none" role="alert"></div>
+        <div id="reservations-list">
+            <p class="text-secondary">Загрузка бронирований...</p>
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-blur fade" id="history-modal"
+     tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">История бронирования</h5>
+                <button type="button" class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body" id="history-content">
+                Загрузка истории...
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(() => {
+    const api = '/api/reservations/';
+    const list = document.getElementById('reservations-list');
+    const form = document.getElementById('reservation-form');
+    const bookSelect = document.getElementById('book-select');
+    const statusFilter = document.getElementById('status-filter');
+    const genreFilter = document.getElementById('genre-filter');
+    const message = document.getElementById('message');
+    const formTitle = document.getElementById('reservation-form-title');
+    const submitButton = document.getElementById('reservation-submit');
+    const cancelEditButton = document.getElementById('reservation-cancel-edit');
+
+    let editingReservationId = null;
+    const reservationsById = new Map();
+
+    function showMessage(text, success = false) {
+        message.textContent = text;
+        message.className = success
+            ? 'alert alert-success'
+            : 'alert alert-danger';
+    }
+
+    function getCookie(name) {
+        const cookies = document.cookie.split(';');
+
+        for (const cookie of cookies) {
+            const item = cookie.trim();
+
+            if (item.startsWith(name + '=')) {
+                return decodeURIComponent(item.slice(name.length + 1));
+            }
+        }
+
+        return '';
+    }
+
+    async function request(url, options = {}) {
+        const headers = {
+            'Accept': 'application/json',
+            ...options.headers
+        };
+
+        if (options.body) {
+            headers['Content-Type'] = 'application/json';
+        }
+
+        if (options.method && options.method !== 'GET') {
+            headers['X-CSRFToken'] = getCookie('csrftoken');
+        }
+
+        const response = await fetch(url, {
+            ...options,
+            headers,
+            credentials: 'same-origin'
+        });
+
+        if (!response.ok) {
+            let errorText = `Ошибка сервера: ${response.status}`;
+
+            try {
+                const data = await response.json();
+
+                if (data.error) {
+                    errorText = data.error;
+                } else if (data.detail) {
+                    errorText = data.detail;
+                } else {
+                    const errors = Object.values(data)
+                        .flatMap(value => Array.isArray(value) ? value : [value])
+                        .map(value => typeof value === 'string'
+                            ? value
+                            : JSON.stringify(value));
+
+                    errorText = errors.join(' ');
+                }
+            } catch (error) {
+                // Ответ сервера не содержит JSON.
+            }
+
+            throw new Error(errorText);
+        }
+
+        if (response.status === 204) {
+            return null;
+        }
+
+        return response.json();
+    }
+
+    async function loadBooks() {
+        const data = await request('/api/books/?page=1');
+
+        bookSelect.replaceChildren();
+
+        const firstOption = document.createElement('option');
+        firstOption.value = '';
+        firstOption.textContent = 'Выберите книгу';
+        bookSelect.appendChild(firstOption);
+
+        for (const book of data.results) {
+            const option = document.createElement('option');
+            option.value = book.id;
+            option.textContent =
+                `${book.title} — доступно: ${book.available_copies}`;
+
+            option.disabled = book.available_copies < 1;
+            bookSelect.appendChild(option);
+        }
+
+        if (data.count > data.results.length) {
+            showMessage(
+                'В списке выбора показана только первая страница каталога.',
+                true
+            );
+        }
+    }
+
+    async function loadGenres() {
+        const genres = await request('/api/genres/');
+
+        for (const genre of genres) {
+            const option = document.createElement('option');
+            option.value = genre.id;
+            option.textContent = genre.name;
+            genreFilter.appendChild(option);
+        }
+    }
+
+    function addText(parent, tag, text, className = '') {
+        const element = document.createElement(tag);
+        element.textContent = text;
+
+        if (className) {
+            element.className = className;
+        }
+
+        parent.appendChild(element);
+        return element;
+    }
+
+    function addButton(parent, text, action, id, style = 'btn-outline-primary') {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = `btn btn-sm ${style} me-1 mb-1`;
+        button.textContent = text;
+        button.dataset.action = action;
+        button.dataset.id = id;
+        parent.appendChild(button);
+    }
+
+    function renderReservations(reservations) {
+        list.replaceChildren();
+
+        if (!reservations.length) {
+            addText(
+                list,
+                'p',
+                'Бронирования не найдены.',
+                'text-secondary'
+            );
+            return;
+        }
+
+        for (const reservation of reservations) {
+            reservationsById.set(String(reservation.id), reservation);
+            const card = document.createElement('div');
+            card.className = 'card mb-3';
+
+            const body = document.createElement('div');
+            body.className = 'card-body';
+
+            addText(
+                body,
+                'h3',
+                reservation.book_title,
+                'card-title'
+            );
+
+            addText(
+                body,
+                'p',
+                `Статус: ${reservation.status_label}`,
+                'text-secondary'
+            );
+
+            addText(
+                body,
+                'p',
+                `Дата создания: ${
+                    new Date(reservation.created_at).toLocaleString('ru-RU')
+                }`
+            );
+
+            const actions = document.createElement('div');
+
+            if (reservation.status === 'created') {
+                addButton(
+                    actions,
+                    'Изменить',
+                    'edit',
+                    reservation.id,
+                    'btn-outline-primary'
+                );
+                addButton(
+                    actions, 'Подтвердить', 'confirm', reservation.id
+                );
+                addButton(
+                    actions, 'Отменить', 'cancel', reservation.id,
+                    'btn-outline-danger'
+                );
+                addButton(
+                    actions, 'Удалить', 'delete', reservation.id,
+                    'btn-outline-danger'
+                );
+            }
+
+            if (reservation.status === 'confirmed') {
+                addButton(actions, 'Выдать книгу', 'issue', reservation.id);
+                addButton(
+                    actions, 'Отменить', 'cancel', reservation.id,
+                    'btn-outline-danger'
+                );
+            }
+
+            if (reservation.status === 'issued') {
+                addButton(actions, 'Вернуть книгу', 'return', reservation.id);
+            }
+
+            addButton(
+                actions, 'История', 'history', reservation.id,
+                'btn-outline-secondary'
+            );
+
+            body.appendChild(actions);
+            card.appendChild(body);
+            list.appendChild(card);
+        }
+    }
+
+    async function loadReservations() {
+        list.textContent = 'Загрузка...';
+
+        try {
+            const params = new URLSearchParams();
+
+            if (statusFilter.value) {
+                params.set('status', statusFilter.value);
+            }
+
+            if (genreFilter.value) {
+                params.set('genre', genreFilter.value);
+            }
+
+            const query = params.toString();
+            const url = api + (query ? '?' + query : '');
+            const reservations = await request(url);
+
+            renderReservations(reservations);
+        } catch (error) {
+            list.textContent = '';
+            showMessage(error.message);
+        }
+    }
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        if (!bookSelect.value) {
+            showMessage('Сначала выберите книгу.');
+            return;
+        }
+
+
+        try {
+            if (editingReservationId !== null) {
+                await request(`${api}${editingReservationId}/`, {
+                    method: 'PATCH',
+                    body: JSON.stringify({
+                        book: Number(bookSelect.value)
+                    })
+                });
+
+                showMessage('Изменения сохранены.', true);
+            } else {
+                await request(api, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        book: Number(bookSelect.value)
+                    })
+                });
+
+                showMessage('Бронирование создано.', true);
+            }
+
+            resetReservationForm();
+            await Promise.all([loadBooks(), loadReservations()]);
+        } catch (error) {
+            showMessage(error.message);
+        }
+    });
+
+
+    function resetReservationForm() {
+        editingReservationId = null;
+        form.reset();
+
+        formTitle.textContent = 'Новое бронирование';
+        submitButton.textContent = 'Создать бронирование';
+        cancelEditButton.classList.add('d-none');
+    }
+
+    cancelEditButton.addEventListener('click', () => {
+        resetReservationForm();
+        showMessage('Редактирование отменено.', true);
+    });
+
+    list.addEventListener('click', async (event) => {
+        const button = event.target.closest('button[data-action]');
+
+        if (!button) {
+            return;
+        }
+
+        const id = button.dataset.id;
+        const action = button.dataset.action;
+
+
+        if (action === 'edit') {
+            const reservation = reservationsById.get(String(id));
+
+            if (!reservation || reservation.status !== 'created') {
+                showMessage(
+                    'Редактировать можно только новое бронирование.'
+                );
+                return;
+            }
+
+            editingReservationId = reservation.id;
+            bookSelect.value = String(reservation.book);
+
+            formTitle.textContent = 'Редактирование бронирования';
+            submitButton.textContent = 'Сохранить изменения';
+            cancelEditButton.classList.remove('d-none');
+
+            form.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+
+            return;
+        }
+
+
+        try {
+            if (action === 'delete') {
+                if (!confirm('Удалить это бронирование?')) {
+                    return;
+                }
+
+                await request(`${api}${id}/`, {
+                    method: 'DELETE'
+                });
+
+                showMessage('Бронирование удалено.', true);
+                await loadReservations();
+                return;
+            }
+
+            if (action === 'history') {
+                const events = await request(`${api}${id}/events/`);
+                const content = document.getElementById('history-content');
+                content.replaceChildren();
+
+                if (!events.length) {
+                    addText(content, 'p', 'История пока пуста.');
+                }
+
+                for (const item of events) {
+                    addText(
+                        content,
+                        'p',
+                        `${item.event_type}: ${item.details} — ${
+                            new Date(item.created_at).toLocaleString('ru-RU')
+                        }`
+                    );
+                }
+
+                const modal = new bootstrap.Modal(
+                    document.getElementById('history-modal')
+                );
+                modal.show();
+                return;
+            }
+
+            await request(`${api}${id}/action/`, {
+                method: 'POST',
+                body: JSON.stringify({action})
+            });
+
+            showMessage('Операция выполнена.', true);
+            await loadReservations();
+        } catch (error) {
+            showMessage(error.message);
+        }
+    });
+
+    statusFilter.addEventListener('change', loadReservations);
+    genreFilter.addEventListener('change', loadReservations);
+
+    async function init() {
+        try {
+            await Promise.all([loadBooks(), loadGenres()]);
+            await loadReservations();
+        } catch (error) {
+            showMessage(error.message);
+            list.textContent = 'Не удалось загрузить данные.';
+        }
+    }
+
+    init();
+})();
+</script>
+{% endblock %}

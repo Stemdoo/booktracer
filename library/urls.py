@@ -26,4 +26,30 @@ urlpatterns = [
         views.api_my_book_status_detail,
         name='api_my_book_status_detail'
     ),
+
+    path(
+        'api/reservations/',
+        views.api_reservations,
+        name='api_reservations'
+    ),
+    path(
+        'api/reservations/<int:reservation_id>/',
+        views.api_reservation_detail,
+        name='api_reservation_detail'
+    ),
+    path(
+        'api/reservations/<int:reservation_id>/action/',
+        views.api_reservation_action,
+        name='api_reservation_action'
+    ),
+    path(
+        'api/reservations/<int:reservation_id>/events/',
+        views.api_reservation_events,
+        name='api_reservation_events'
+    ),
+    path(
+        'reservations/',
+        views.reservations_page,
+        name='reservations_page'
+    ),
 ]
