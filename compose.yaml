@@ -1,0 +1,39 @@
+
+services:
+  web:
+    build: .
+    container_name: booktracker_web
+    command: >
+      sh -c "python manage.py migrate &&
+             gunicorn booktracker.wsgi:application
+             --bind 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgres://bookuser:bookpass@db:5432/bookdb
+      GUNICORN_CMD_ARGS: "--bind 0.0.0.0:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: postgres:16
+    container_name: booktracker_db
+    environment:
+      POSTGRES_DB: bookdb
+      POSTGRES_USER: bookuser
+      POSTGRES_PASSWORD: bookpass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bookuser -d bookdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

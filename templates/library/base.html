@@ -73,6 +73,13 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'my_books' %}">Мои книги</a>
                             </li>
+                        {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'reservations_page' %}">
+                                    Бронирования
+                                </a>
+                            </li>
+                        {% endif %}
                         {% else %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'login' %}?next={% url 'my_books' %}">Мои книги</a>
