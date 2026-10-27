@@ -54,6 +54,9 @@ CSRF_TRUSTED_ORIGINS = [
     if origin.strip()
 ]
 
+print("DEBUG =", DEBUG)
+print("ALLOWED_HOSTS =", ALLOWED_HOSTS)
+print("CSRF_TRUSTED_ORIGINS =", CSRF_TRUSTED_ORIGINS)
 
 # Application definition
 
