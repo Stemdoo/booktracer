@@ -3,44 +3,45 @@
   "model": "library.author",
   "pk": 1,
   "fields": {
-    "name": "Михаил Булгаков"
+    "name": "РњРёС…Р°РёР» Р‘СѓР»РіР°РєРѕРІ"
   }
 },
 {
   "model": "library.author",
   "pk": 2,
   "fields": {
-    "name": "Федор Достоевский"
+    "name": "Р¤РµРґРѕСЂ Р”РѕСЃС‚РѕРµРІСЃРєРёР№"
   }
 },
 {
   "model": "library.author",
   "pk": 3,
   "fields": {
-    "name": "Джоан Роулинг"
+    "name": "Р”Р¶РѕР°РЅ Р РѕСѓР»РёРЅРі"
   }
 },
 {
   "model": "library.genre",
   "pk": 1,
   "fields": {
-    "name": "Роман"
+    "name": "Р РѕРјР°РЅ"
   }
 },
 {
   "model": "library.genre",
   "pk": 2,
   "fields": {
-    "name": "Фэнтези"
+    "name": "Р¤СЌРЅС‚РµР·Рё"
   }
 },
 {
   "model": "library.book",
   "pk": 1,
   "fields": {
-    "title": "Мастер и маргарита",
-    "description": "Роман о событиях в Москве и истории Понтия Пилата.",
+    "title": "РњР°СЃС‚РµСЂ Рё РјР°СЂРіР°СЂРёС‚Р°",
+    "description": "Р РѕРјР°РЅ Рѕ СЃРѕР±С‹С‚РёСЏС… РІ РњРѕСЃРєРІРµ Рё РёСЃС‚РѕСЂРёРё РџРѕРЅС‚РёСЏ РџРёР»Р°С‚Р°.",
     "snippet": "",
+    "available_copies": 0,
     "author": 1,
     "genre": 1
   }
@@ -49,9 +50,10 @@
   "model": "library.book",
   "pk": 2,
   "fields": {
-    "title": "Идиот",
-    "description": "Наивный князь Мышкин, пытаясь спасти падшую женщину и примирить враждующих, сам становится жертвой людской злобы и сходит с ума.",
-    "snippet": "Когда князь замолчал, все на него смотрели весело, даже и Аглая, но особенно Лизавета Прокофьевна.\r\n— Вот и проэкзаменовали! — вскричала она. — Что, милостивые государыни, вы думали, что вы же его будете протежировать, как бедненького, а он вас сам едва избрать удостоил, да еще с оговоркой, что приходить будет только изредка. Вот мы и в дурах, и я рада; а пуще всего Иван Федорович. Браво, князь, вас давеча проэкзаменовать велели. А то, что вы про мое лицо сказали, то всё совершенная правда: я ребенок и знаю это. Я еще прежде вашего знала про это; вы именно выразили мою мысль в одном слове. Ваш характер я считаю совершенно сходным с моим и очень рада; как две капли воды. Только вы мужчина, а я женщина и в Швейцарии не была; вот и вся разница.\r\n— Не торопитесь, maman, — вскричала Аглая, — князь говорит, что он во всех своих признаниях особую мысль имел и неспроста говорил.\r\n— Да, да, — смеялись другие.\r\n— Не труните, милые, еще он, может быть, похитрее всех вас трех вместе. Увидите. Но только что ж вы, князь, про Аглаю ничего не сказали? Аглая ждет, и я жду.",
+    "title": "РРґРёРѕС‚",
+    "description": "РќР°РёРІРЅС‹Р№ РєРЅСЏР·СЊ РњС‹С€РєРёРЅ, РїС‹С‚Р°СЏСЃСЊ СЃРїР°СЃС‚Рё РїР°РґС€СѓСЋ Р¶РµРЅС‰РёРЅСѓ Рё РїСЂРёРјРёСЂРёС‚СЊ РІСЂР°Р¶РґСѓСЋС‰РёС…, СЃР°Рј СЃС‚Р°РЅРѕРІРёС‚СЃСЏ Р¶РµСЂС‚РІРѕР№ Р»СЋРґСЃРєРѕР№ Р·Р»РѕР±С‹ Рё СЃС…РѕРґРёС‚ СЃ СѓРјР°.",
+    "snippet": "РљРѕРіРґР° РєРЅСЏР·СЊ Р·Р°РјРѕР»С‡Р°Р», РІСЃРµ РЅР° РЅРµРіРѕ СЃРјРѕС‚СЂРµР»Рё РІРµСЃРµР»Рѕ, РґР°Р¶Рµ Рё РђРіР»Р°СЏ, РЅРѕ РѕСЃРѕР±РµРЅРЅРѕ Р›РёР·Р°РІРµС‚Р° РџСЂРѕРєРѕС„СЊРµРІРЅР°.\r\nвЂ” Р’РѕС‚ Рё РїСЂРѕСЌРєР·Р°РјРµРЅРѕРІР°Р»Рё! вЂ” РІСЃРєСЂРёС‡Р°Р»Р° РѕРЅР°. вЂ” Р§С‚Рѕ, РјРёР»РѕСЃС‚РёРІС‹Рµ РіРѕСЃСѓРґР°СЂС‹РЅРё, РІС‹ РґСѓРјР°Р»Рё, С‡С‚Рѕ РІС‹ Р¶Рµ РµРіРѕ Р±СѓРґРµС‚Рµ РїСЂРѕС‚РµР¶РёСЂРѕРІР°С‚СЊ, РєР°Рє Р±РµРґРЅРµРЅСЊРєРѕРіРѕ, Р° РѕРЅ РІР°СЃ СЃР°Рј РµРґРІР° РёР·Р±СЂР°С‚СЊ СѓРґРѕСЃС‚РѕРёР», РґР° РµС‰Рµ СЃ РѕРіРѕРІРѕСЂРєРѕР№, С‡С‚Рѕ РїСЂРёС…РѕРґРёС‚СЊ Р±СѓРґРµС‚ С‚РѕР»СЊРєРѕ РёР·СЂРµРґРєР°. Р’РѕС‚ РјС‹ Рё РІ РґСѓСЂР°С…, Рё СЏ СЂР°РґР°; Р° РїСѓС‰Рµ РІСЃРµРіРѕ РРІР°РЅ Р¤РµРґРѕСЂРѕРІРёС‡. Р‘СЂР°РІРѕ, РєРЅСЏР·СЊ, РІР°СЃ РґР°РІРµС‡Р° РїСЂРѕСЌРєР·Р°РјРµРЅРѕРІР°С‚СЊ РІРµР»РµР»Рё. Рђ С‚Рѕ, С‡С‚Рѕ РІС‹ РїСЂРѕ РјРѕРµ Р»РёС†Рѕ СЃРєР°Р·Р°Р»Рё, С‚Рѕ РІСЃС‘ СЃРѕРІРµСЂС€РµРЅРЅР°СЏ РїСЂР°РІРґР°: СЏ СЂРµР±РµРЅРѕРє Рё Р·РЅР°СЋ СЌС‚Рѕ. РЇ РµС‰Рµ РїСЂРµР¶РґРµ РІР°С€РµРіРѕ Р·РЅР°Р»Р° РїСЂРѕ СЌС‚Рѕ; РІС‹ РёРјРµРЅРЅРѕ РІС‹СЂР°Р·РёР»Рё РјРѕСЋ РјС‹СЃР»СЊ РІ РѕРґРЅРѕРј СЃР»РѕРІРµ. Р’Р°С€ С…Р°СЂР°РєС‚РµСЂ СЏ СЃС‡РёС‚Р°СЋ СЃРѕРІРµСЂС€РµРЅРЅРѕ СЃС…РѕРґРЅС‹Рј СЃ РјРѕРёРј Рё РѕС‡РµРЅСЊ СЂР°РґР°; РєР°Рє РґРІРµ РєР°РїР»Рё РІРѕРґС‹. РўРѕР»СЊРєРѕ РІС‹ РјСѓР¶С‡РёРЅР°, Р° СЏ Р¶РµРЅС‰РёРЅР° Рё РІ РЁРІРµР№С†Р°СЂРёРё РЅРµ Р±С‹Р»Р°; РІРѕС‚ Рё РІСЃСЏ СЂР°Р·РЅРёС†Р°.\r\nвЂ” РќРµ С‚РѕСЂРѕРїРёС‚РµСЃСЊ, maman, вЂ” РІСЃРєСЂРёС‡Р°Р»Р° РђРіР»Р°СЏ, вЂ” РєРЅСЏР·СЊ РіРѕРІРѕСЂРёС‚, С‡С‚Рѕ РѕРЅ РІРѕ РІСЃРµС… СЃРІРѕРёС… РїСЂРёР·РЅР°РЅРёСЏС… РѕСЃРѕР±СѓСЋ РјС‹СЃР»СЊ РёРјРµР» Рё РЅРµСЃРїСЂРѕСЃС‚Р° РіРѕРІРѕСЂРёР».\r\nвЂ” Р”Р°, РґР°, вЂ” СЃРјРµСЏР»РёСЃСЊ РґСЂСѓРіРёРµ.\r\nвЂ” РќРµ С‚СЂСѓРЅРёС‚Рµ, РјРёР»С‹Рµ, РµС‰Рµ РѕРЅ, РјРѕР¶РµС‚ Р±С‹С‚СЊ, РїРѕС…РёС‚СЂРµРµ РІСЃРµС… РІР°СЃ С‚СЂРµС… РІРјРµСЃС‚Рµ. РЈРІРёРґРёС‚Рµ. РќРѕ С‚РѕР»СЊРєРѕ С‡С‚Рѕ Р¶ РІС‹, РєРЅСЏР·СЊ, РїСЂРѕ РђРіР»Р°СЋ РЅРёС‡РµРіРѕ РЅРµ СЃРєР°Р·Р°Р»Рё? РђРіР»Р°СЏ Р¶РґРµС‚, Рё СЏ Р¶РґСѓ.",
+    "available_copies": 4,
     "author": 2,
     "genre": 1
   }
@@ -60,11 +62,629 @@
   "model": "library.book",
   "pk": 3,
   "fields": {
-    "title": "Гарри Поттер и философский камень",
-    "description": "Приключения мальчика - волшебника",
+    "title": "Р“Р°СЂСЂРё РџРѕС‚С‚РµСЂ Рё С„РёР»РѕСЃРѕС„СЃРєРёР№ РєР°РјРµРЅСЊ",
+    "description": "РџСЂРёРєР»СЋС‡РµРЅРёСЏ РјР°Р»СЊС‡РёРєР° - РІРѕР»С€РµР±РЅРёРєР°",
     "snippet": "",
+    "available_copies": 2,
     "author": 3,
     "genre": 2
+  }
+},
+{
+  "model": "library.userbookstatus",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "book": 1,
+    "status": "read",
+    "is_favorite": false
+  }
+},
+{
+  "model": "library.userbookstatus",
+  "pk": 3,
+  "fields": {
+    "user": 2,
+    "book": 3,
+    "status": "reading",
+    "is_favorite": false
+  }
+},
+{
+  "model": "library.userbookstatus",
+  "pk": 4,
+  "fields": {
+    "user": 2,
+    "book": 2,
+    "status": "to_read",
+    "is_favorite": true
+  }
+},
+{
+  "model": "library.userbookstatus",
+  "pk": 8,
+  "fields": {
+    "user": 1,
+    "book": 2,
+    "status": "read",
+    "is_favorite": true
+  }
+},
+{
+  "model": "library.bookreservation",
+  "pk": 1,
+  "fields": {
+    "book": 3,
+    "user": 1,
+    "status": "cancelled",
+    "created_at": "2026-10-19T17:35:45.848Z",
+    "updated_at": "2026-10-19T17:36:34.512Z"
+  }
+},
+{
+  "model": "library.bookreservation",
+  "pk": 2,
+  "fields": {
+    "book": 2,
+    "user": 1,
+    "status": "cancelled",
+    "created_at": "2026-10-19T17:58:06.269Z",
+    "updated_at": "2026-10-19T17:58:11.522Z"
+  }
+},
+{
+  "model": "library.bookreservation",
+  "pk": 3,
+  "fields": {
+    "book": 2,
+    "user": 1,
+    "status": "cancelled",
+    "created_at": "2026-10-19T17:58:14.052Z",
+    "updated_at": "2026-10-19T17:58:17.354Z"
+  }
+},
+{
+  "model": "library.bookreservation",
+  "pk": 4,
+  "fields": {
+    "book": 1,
+    "user": 1,
+    "status": "cancelled",
+    "created_at": "2026-10-19T17:58:24.909Z",
+    "updated_at": "2026-10-19T17:58:29.375Z"
+  }
+},
+{
+  "model": "library.bookreservation",
+  "pk": 7,
+  "fields": {
+    "book": 2,
+    "user": 1,
+    "status": "cancelled",
+    "created_at": "2026-10-19T18:19:19.283Z",
+    "updated_at": "2026-10-19T18:20:55.688Z"
+  }
+},
+{
+  "model": "library.bookreservation",
+  "pk": 10,
+  "fields": {
+    "book": 2,
+    "user": 1,
+    "status": "returned",
+    "created_at": "2026-10-19T18:21:25.181Z",
+    "updated_at": "2026-10-20T07:42:54.486Z"
+  }
+},
+{
+  "model": "library.bookreservation",
+  "pk": 11,
+  "fields": {
+    "book": 2,
+    "user": 1,
+    "status": "cancelled",
+    "created_at": "2026-10-20T07:36:19.475Z",
+    "updated_at": "2026-10-21T12:32:53.092Z"
+  }
+},
+{
+  "model": "library.bookreservation",
+  "pk": 12,
+  "fields": {
+    "book": 3,
+    "user": 2,
+    "status": "cancelled",
+    "created_at": "2026-10-20T18:15:23.211Z",
+    "updated_at": "2026-10-20T18:21:29.104Z"
+  }
+},
+{
+  "model": "library.bookreservation",
+  "pk": 15,
+  "fields": {
+    "book": 2,
+    "user": 2,
+    "status": "cancelled",
+    "created_at": "2026-10-21T11:16:17.871Z",
+    "updated_at": "2026-10-21T11:16:23.518Z"
+  }
+},
+{
+  "model": "library.bookreservation",
+  "pk": 17,
+  "fields": {
+    "book": 3,
+    "user": 2,
+    "status": "created",
+    "created_at": "2026-10-21T12:18:59.851Z",
+    "updated_at": "2026-10-21T12:18:59.851Z"
+  }
+},
+{
+  "model": "library.bookreservation",
+  "pk": 18,
+  "fields": {
+    "book": 2,
+    "user": 1,
+    "status": "cancelled",
+    "created_at": "2026-10-21T12:32:57.764Z",
+    "updated_at": "2026-10-21T13:17:15.126Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 1,
+  "fields": {
+    "reservation": 1,
+    "reservation_id_snapshot": null,
+    "actor": 1,
+    "event_type": "created",
+    "details": "РЎРѕР·РґР°РЅРѕ РЅРѕРІРѕРµ Р±СЂРѕРЅРёСЂРѕРІР°РЅРёРµ.",
+    "created_at": "2026-10-19T17:35:45.857Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 2,
+  "fields": {
+    "reservation": 1,
+    "reservation_id_snapshot": null,
+    "actor": 1,
+    "event_type": "confirm",
+    "details": "Р‘СЂРѕРЅРёСЂРѕРІР°РЅРёРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅРѕ.",
+    "created_at": "2026-10-19T17:36:21.091Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 3,
+  "fields": {
+    "reservation": 1,
+    "reservation_id_snapshot": null,
+    "actor": 1,
+    "event_type": "cancel",
+    "details": "Р‘СЂРѕРЅРёСЂРѕРІР°РЅРёРµ РѕС‚РјРµРЅРµРЅРѕ.",
+    "created_at": "2026-10-19T17:36:34.519Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 4,
+  "fields": {
+    "reservation": 2,
+    "reservation_id_snapshot": null,
+    "actor": 1,
+    "event_type": "created",
+    "details": "РЎРѕР·РґР°РЅРѕ РЅРѕРІРѕРµ Р±СЂРѕРЅРёСЂРѕРІР°РЅРёРµ.",
+    "created_at": "2026-10-19T17:58:06.275Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 5,
+  "fields": {
+    "reservation": 2,
+    "reservation_id_snapshot": null,
+    "actor": 1,
+    "event_type": "cancel",
+    "details": "Р‘СЂРѕРЅРёСЂРѕРІР°РЅРёРµ РѕС‚РјРµРЅРµРЅРѕ.",
+    "created_at": "2026-10-19T17:58:11.531Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 6,
+  "fields": {
+    "reservation": 3,
+    "reservation_id_snapshot": null,
+    "actor": 1,
+    "event_type": "created",
+    "details": "РЎРѕР·РґР°РЅРѕ РЅРѕРІРѕРµ Р±СЂРѕРЅРёСЂРѕРІР°РЅРёРµ.",
+    "created_at": "2026-10-19T17:58:14.055Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 7,
+  "fields": {
+    "reservation": 3,
+    "reservation_id_snapshot": null,
+    "actor": 1,
+    "event_type": "cancel",
+    "details": "Р‘СЂРѕРЅРёСЂРѕРІР°РЅРёРµ РѕС‚РјРµРЅРµРЅРѕ.",
+    "created_at": "2026-10-19T17:58:17.356Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 8,
+  "fields": {
+    "reservation": 4,
+    "reservation_id_snapshot": null,
+    "actor": 1,
+    "event_type": "created",
+    "details": "РЎРѕР·РґР°РЅРѕ РЅРѕРІРѕРµ Р±СЂРѕРЅРёСЂРѕРІР°РЅРёРµ.",
+    "created_at": "2026-10-19T17:58:24.910Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 9,
+  "fields": {
+    "reservation": 4,
+    "reservation_id_snapshot": null,
+    "actor": 1,
+    "event_type": "confirm",
+    "details": "Р‘СЂРѕРЅРёСЂРѕРІР°РЅРёРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅРѕ.",
+    "created_at": "2026-10-19T17:58:26.918Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 10,
+  "fields": {
+    "reservation": 4,
+    "reservation_id_snapshot": null,
+    "actor": 1,
+    "event_type": "cancel",
+    "details": "Р‘СЂРѕРЅРёСЂРѕРІР°РЅРёРµ РѕС‚РјРµРЅРµРЅРѕ.",
+    "created_at": "2026-10-19T17:58:29.376Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 13,
+  "fields": {
+    "reservation": 7,
+    "reservation_id_snapshot": null,
+    "actor": 1,
+    "event_type": "created",
+    "details": "РЎРѕР·РґР°РЅРѕ РЅРѕРІРѕРµ Р±СЂРѕРЅРёСЂРѕРІР°РЅРёРµ.",
+    "created_at": "2026-10-19T18:19:19.293Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 14,
+  "fields": {
+    "reservation": 7,
+    "reservation_id_snapshot": null,
+    "actor": 1,
+    "event_type": "confirm",
+    "details": "Р‘СЂРѕРЅРёСЂРѕРІР°РЅРёРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅРѕ.",
+    "created_at": "2026-10-19T18:19:40.066Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 15,
+  "fields": {
+    "reservation": 7,
+    "reservation_id_snapshot": null,
+    "actor": 1,
+    "event_type": "cancel",
+    "details": "Р‘СЂРѕРЅРёСЂРѕРІР°РЅРёРµ РѕС‚РјРµРЅРµРЅРѕ.",
+    "created_at": "2026-10-19T18:20:55.691Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 18,
+  "fields": {
+    "reservation": 10,
+    "reservation_id_snapshot": null,
+    "actor": 1,
+    "event_type": "created",
+    "details": "РЎРѕР·РґР°РЅРѕ РЅРѕРІРѕРµ Р±СЂРѕРЅРёСЂРѕРІР°РЅРёРµ.",
+    "created_at": "2026-10-19T18:21:25.185Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 19,
+  "fields": {
+    "reservation": 11,
+    "reservation_id_snapshot": null,
+    "actor": 1,
+    "event_type": "created",
+    "details": "РЎРѕР·РґР°РЅРѕ РЅРѕРІРѕРµ Р±СЂРѕРЅРёСЂРѕРІР°РЅРёРµ.",
+    "created_at": "2026-10-20T07:36:19.482Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 20,
+  "fields": {
+    "reservation": 10,
+    "reservation_id_snapshot": null,
+    "actor": 1,
+    "event_type": "confirm",
+    "details": "Р‘СЂРѕРЅРёСЂРѕРІР°РЅРёРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅРѕ.",
+    "created_at": "2026-10-20T07:42:36.870Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 21,
+  "fields": {
+    "reservation": 10,
+    "reservation_id_snapshot": null,
+    "actor": 1,
+    "event_type": "issue",
+    "details": "РљРЅРёРіР° РІС‹РґР°РЅР°.",
+    "created_at": "2026-10-20T07:42:45.359Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 22,
+  "fields": {
+    "reservation": 10,
+    "reservation_id_snapshot": null,
+    "actor": 1,
+    "event_type": "return",
+    "details": "РљРЅРёРіР° РІРѕР·РІСЂР°С‰РµРЅР°.",
+    "created_at": "2026-10-20T07:42:54.488Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 23,
+  "fields": {
+    "reservation": 11,
+    "reservation_id_snapshot": null,
+    "actor": 1,
+    "event_type": "updated",
+    "details": "РР·РјРµРЅРµРЅР° РєРЅРёРіР° РІ Р±СЂРѕРЅРёСЂРѕРІР°РЅРёРё.",
+    "created_at": "2026-10-20T17:56:30.200Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 24,
+  "fields": {
+    "reservation": 11,
+    "reservation_id_snapshot": null,
+    "actor": 1,
+    "event_type": "confirm",
+    "details": "Р‘СЂРѕРЅРёСЂРѕРІР°РЅРёРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅРѕ.",
+    "created_at": "2026-10-20T17:56:54.524Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 25,
+  "fields": {
+    "reservation": 12,
+    "reservation_id_snapshot": null,
+    "actor": 2,
+    "event_type": "created",
+    "details": "РЎРѕР·РґР°РЅРѕ РЅРѕРІРѕРµ Р±СЂРѕРЅРёСЂРѕРІР°РЅРёРµ.",
+    "created_at": "2026-10-20T18:15:23.216Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 26,
+  "fields": {
+    "reservation": 12,
+    "reservation_id_snapshot": null,
+    "actor": 2,
+    "event_type": "confirm",
+    "details": "Р‘СЂРѕРЅРёСЂРѕРІР°РЅРёРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅРѕ.",
+    "created_at": "2026-10-20T18:20:22.499Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 27,
+  "fields": {
+    "reservation": 12,
+    "reservation_id_snapshot": null,
+    "actor": 2,
+    "event_type": "cancel",
+    "details": "Р‘СЂРѕРЅРёСЂРѕРІР°РЅРёРµ РѕС‚РјРµРЅРµРЅРѕ.",
+    "created_at": "2026-10-20T18:21:29.106Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 29,
+  "fields": {
+    "reservation": null,
+    "reservation_id_snapshot": null,
+    "actor": 2,
+    "event_type": "created",
+    "details": "РЎРѕР·РґР°РЅРѕ РЅРѕРІРѕРµ Р±СЂРѕРЅРёСЂРѕРІР°РЅРёРµ.",
+    "created_at": "2026-10-20T18:23:29.041Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 30,
+  "fields": {
+    "reservation": null,
+    "reservation_id_snapshot": null,
+    "actor": 2,
+    "event_type": "updated",
+    "details": "РР·РјРµРЅРµРЅР° РєРЅРёРіР° РІ Р±СЂРѕРЅРёСЂРѕРІР°РЅРёРё.",
+    "created_at": "2026-10-20T18:23:35.106Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 31,
+  "fields": {
+    "reservation": null,
+    "reservation_id_snapshot": 14,
+    "actor": 2,
+    "event_type": "deleted",
+    "details": "Р‘СЂРѕРЅРёСЂРѕРІР°РЅРёРµ СѓРґР°Р»РµРЅРѕ. РљРЅРёРіР°: РРґРёРѕС‚.",
+    "created_at": "2026-10-21T11:16:01.490Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 32,
+  "fields": {
+    "reservation": 15,
+    "reservation_id_snapshot": 15,
+    "actor": 2,
+    "event_type": "created",
+    "details": "РЎРѕР·РґР°РЅРѕ РЅРѕРІРѕРµ Р±СЂРѕРЅРёСЂРѕРІР°РЅРёРµ.",
+    "created_at": "2026-10-21T11:16:17.872Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 33,
+  "fields": {
+    "reservation": 15,
+    "reservation_id_snapshot": 15,
+    "actor": 2,
+    "event_type": "confirm",
+    "details": "Р‘СЂРѕРЅРёСЂРѕРІР°РЅРёРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅРѕ.",
+    "created_at": "2026-10-21T11:16:20.584Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 34,
+  "fields": {
+    "reservation": 15,
+    "reservation_id_snapshot": 15,
+    "actor": 2,
+    "event_type": "cancel",
+    "details": "Р‘СЂРѕРЅРёСЂРѕРІР°РЅРёРµ РѕС‚РјРµРЅРµРЅРѕ.",
+    "created_at": "2026-10-21T11:16:23.519Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 35,
+  "fields": {
+    "reservation": null,
+    "reservation_id_snapshot": 16,
+    "actor": 2,
+    "event_type": "created",
+    "details": "РЎРѕР·РґР°РЅРѕ РЅРѕРІРѕРµ Р±СЂРѕРЅРёСЂРѕРІР°РЅРёРµ.",
+    "created_at": "2026-10-21T11:16:33.378Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 36,
+  "fields": {
+    "reservation": null,
+    "reservation_id_snapshot": 16,
+    "actor": 2,
+    "event_type": "deleted",
+    "details": "Р‘СЂРѕРЅРёСЂРѕРІР°РЅРёРµ СѓРґР°Р»РµРЅРѕ. РљРЅРёРіР°: РРґРёРѕС‚.",
+    "created_at": "2026-10-21T11:16:36.268Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 37,
+  "fields": {
+    "reservation": 17,
+    "reservation_id_snapshot": 17,
+    "actor": 2,
+    "event_type": "created",
+    "details": "РЎРѕР·РґР°РЅРѕ РЅРѕРІРѕРµ Р±СЂРѕРЅРёСЂРѕРІР°РЅРёРµ.",
+    "created_at": "2026-10-21T12:18:59.858Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 38,
+  "fields": {
+    "reservation": 11,
+    "reservation_id_snapshot": 11,
+    "actor": 1,
+    "event_type": "cancel",
+    "details": "Р‘СЂРѕРЅРёСЂРѕРІР°РЅРёРµ РѕС‚РјРµРЅРµРЅРѕ.",
+    "created_at": "2026-10-21T12:32:53.094Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 39,
+  "fields": {
+    "reservation": 18,
+    "reservation_id_snapshot": 18,
+    "actor": 1,
+    "event_type": "created",
+    "details": "РЎРѕР·РґР°РЅРѕ РЅРѕРІРѕРµ Р±СЂРѕРЅРёСЂРѕРІР°РЅРёРµ.",
+    "created_at": "2026-10-21T12:32:57.765Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 40,
+  "fields": {
+    "reservation": 18,
+    "reservation_id_snapshot": 18,
+    "actor": 1,
+    "event_type": "confirm",
+    "details": "Р‘СЂРѕРЅРёСЂРѕРІР°РЅРёРµ РїРѕРґС‚РІРµСЂР¶РґРµРЅРѕ.",
+    "created_at": "2026-10-21T12:37:32.164Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 41,
+  "fields": {
+    "reservation": 18,
+    "reservation_id_snapshot": 18,
+    "actor": 1,
+    "event_type": "cancel",
+    "details": "Р‘СЂРѕРЅРёСЂРѕРІР°РЅРёРµ РѕС‚РјРµРЅРµРЅРѕ.",
+    "created_at": "2026-10-21T13:17:15.127Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 42,
+  "fields": {
+    "reservation": null,
+    "reservation_id_snapshot": 19,
+    "actor": 1,
+    "event_type": "created",
+    "details": "РЎРѕР·РґР°РЅРѕ РЅРѕРІРѕРµ Р±СЂРѕРЅРёСЂРѕРІР°РЅРёРµ.",
+    "created_at": "2026-10-21T13:17:17.050Z"
+  }
+},
+{
+  "model": "library.reservationevent",
+  "pk": 43,
+  "fields": {
+    "reservation": null,
+    "reservation_id_snapshot": 19,
+    "actor": 1,
+    "event_type": "deleted",
+    "details": "Р‘СЂРѕРЅРёСЂРѕРІР°РЅРёРµ СѓРґР°Р»РµРЅРѕ.",
+    "created_at": "2026-10-21T13:17:19.188Z"
   }
 }
 ]
