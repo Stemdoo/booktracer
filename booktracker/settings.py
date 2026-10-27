@@ -27,7 +27,11 @@ SECRET_KEY = 'django-insecure-$sp&p4q&s3wy3g(^h+4doo%wf)dt2+!+6o$_a6%ohio58=dhqj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "booktracer-app.onrender.com",
+    "localhost",
+    "127.0.0.1",
+]
 
 
 # Application definition
