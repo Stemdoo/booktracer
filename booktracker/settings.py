@@ -21,27 +21,6 @@ SECRET_KEY = os.environ.get(
     "DJANGO_SECRET_KEY",
     "local-development-only-not-for-production-change-this-key",
 )
-"""
-DEBUG = os.environ.get("DJANGO_DEBUG", "True").strip().lower() in {"1", "true", "yes", "on"}
-
-if not DEBUG and not os.environ.get("DJANGO_SECRET_KEY"):
-    from django.core.exceptions import ImproperlyConfigured
-    raise ImproperlyConfigured("DJANGO_SECRET_KEY must be set when DJANGO_DEBUG=False.")
-
-ALLOWED_HOSTS = [
-    for host in os.environ.get(
-        "DJANGO_ALLOWED_HOSTS",
-        "localhost,127.0.0.1,booktracer-app.onrender.com",
-    ).split(",")
-    if host.strip()
-]
-
-CSRF_TRUSTED_ORIGINS = [
-    origin.strip()
-    for origin in os.environ.get("DJANGO_CSRF_TRUSTED_ORIGINS", "").split(",")
-    if origin.strip()
-]
-"""
 
 ALLOWED_HOSTS = [
     host.strip()
